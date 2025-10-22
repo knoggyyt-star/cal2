@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XAUUSD Position Size Calculator</title>
+  <style>
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      max-width: 350px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      color: #facc15;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 0.5rem;
+      border: none;
+      background: #334155;
+      color: #f8fafc;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      background: #facc15;
+      color: #0f172a;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #eab308;
+    }
+    .result {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #22c55e;
+    }
+    .note {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Gold Lot Size Calculator</h2>
+    <label for="risk">Risk ($)</label>
+    <input id="risk" type="number" value="50" step="0.01">
+
+    <label for="sl">Stop Loss ($ distance)</label>
+    <input id="sl" type="number" value="5.535" step="0.001">
+
+    <button onclick="calc()">Calculate</button>
+
+    <div id="result" class="result"></div>
+    <div class="note">Assumes 1 lot = 100 oz (XAUUSD)</div>
+  </div>
+
+  <script>
+    function calc() {
+      const risk = parseFloat(document.getElementById('risk').value);
+      const sl = parseFloat(document.getElementById('sl').value);
+      const perLot = 100; // XAUUSD = $100 per $1 move per lot
+
+      if (risk > 0 && sl > 0) {
+        const lots = risk / (sl * perLot);
+        document.getElementById('result').innerText = 
+          `Position size: ${lots.toFixed(3)} lots`;
+      } else {
+        document.getElementById('result').innerText = 
+          "Please enter valid numbers.";
+      }
+    }
+  </script>
+</body>
+</html>
