@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #ffffff;
+        margin: 0;
+        padding: 20px;
+      }
+      .calc-box {
+        max-width: 380px;
+        margin: auto;
+        border-radius: 12px;
+        padding: 20px;
+        background: #f9fafb;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      }
+      h2 {
+        text-align: center;
+        color: #111827;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-top: 12px;
+        color: #111827;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      input {
+        width: 100%;
+        padding: 8px 10px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        font-size: 15px;
+      }
+      button {
+        width: 100%;
+        margin-top: 20px;
+        padding: 10px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #1d4ed8;
+      }
+      .result {
+        margin-top: 18px;
+        background: #eef2ff;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calc-box">
+      <h2>XAUUSD Position Size Calculator</h2>
+      <label>Account Balance ($)</label>
+      <input type="number" id="balance" value="5000" step="0.01">
+
+      <label>Risk (%)</label>
+      <input type="number" id="risk" value="1" step="0.1">
+
+      <label>Stop Loss ($)</label>
+      <input type="number" id="stopLoss" value="5.535" step="0.001">
+
+      <label>Risk-to-Reward (R:R)</label>
+      <input type="number" id="rr" value="1" step="0.1">
+
+      <button onclick="calc()">Calculate</button>
+
+      <div class="result" id="result"></div>
+    </div>
+
+    <script>
+      function calc() {
+        const balance = parseFloat(document.getElementById("balance").value);
+        const riskPercent = parseFloat(document.getElementById("risk").value);
+        const stopLoss = parseFloat(document.getElementById("stopLoss").value);
+        const rr = parseFloat(document.getElementById("rr").value);
+
+        const pipValuePerLot = 10.0; // XAUUSD pip value
+        const riskAmount = balance * (riskPercent / 100);
+        const lotSize = riskAmount / (stopLoss * pipValuePerLot);
+        const targetProfit = riskAmount * rr;
+
+        document.getElementById("result").innerHTML = `
+          <b>Risk Amount:</b> $${riskAmount.toFixed(2)}<br>
+          <b>Stop Loss:</b> ${stopLoss.toFixed(3)}<br>
+          <b>Lot Size:</b> ${lotSize.toFixed(3)} lots<br>
+          <b>Target Profit (1R):</b> $${targetProfit.toFixed(2)}
+        `;
+      }
+    </script>
+  </body>
+</html>
